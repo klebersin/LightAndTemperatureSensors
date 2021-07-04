@@ -53,11 +53,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, UIUpdaterInterfac
     fun startSend(view: View){
         var host = "tcp://stickyraccoon289.cloud.shiftr.io"
 
-        var connectionParams1 = MQTTConnectionParams("MQTTSample", host, "temperatura","stickyraccoon289","q2LUs0YznGESIa7k")
+        var connectionParams1 = MQTTConnectionParams("MQTTSend", host, "temperatura","stickyraccoon289","q2LUs0YznGESIa7k")
         mqttManagerTemp = MQTTmanager(connectionParams1,applicationContext,this)
         mqttManagerTemp?.connect()
 
-        var connectionParams2 = MQTTConnectionParams("MQTTSample2", host, "luminocidad","stickyraccoon289","q2LUs0YznGESIa7k")
+        var connectionParams2 = MQTTConnectionParams("MQTTSend2", host, "luminocidad","stickyraccoon289","q2LUs0YznGESIa7k")
         mqttManagerLum = MQTTmanager(connectionParams2,applicationContext,this)
         mqttManagerLum?.connect()
     }
@@ -67,11 +67,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, UIUpdaterInterfac
         when (eachSensor.type) {
             Sensor.TYPE_LIGHT -> {
                 ilu.text = event.values[0].toString()
-                mqttManagerLum?.publish(event.values[0].toString())
+                mqttManagerLum?.publish(event.values[0].toInt().toString())
             }
             Sensor.TYPE_AMBIENT_TEMPERATURE -> {
                 temp.text = event.values[0].toString()
-                mqttManagerTemp?.publish(event.values[0].toString())
+                mqttManagerTemp?.publish(event.values[0].toInt().toString())
             }
             else -> {
             }

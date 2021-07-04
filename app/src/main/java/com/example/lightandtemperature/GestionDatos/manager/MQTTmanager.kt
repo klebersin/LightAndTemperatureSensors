@@ -126,7 +126,7 @@ class MQTTmanager (val connectionParams: MQTTConnectionParams, val context: Cont
     fun publish(message:String){
         try
         {
-            var msg = "Android says:" + message
+            var msg = message
             client.publish(this.connectionParams.topic,msg.toByteArray(),0,false,null,object :IMqttActionListener{
                 override fun onSuccess(asyncActionToken: IMqttToken?) {
                     Log.w("Mqtt", "Publish Success!")
