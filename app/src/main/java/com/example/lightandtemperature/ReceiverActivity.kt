@@ -15,8 +15,13 @@ import com.example.lightandtemperature.GestionDatos.uiadapter.UIUpdaterInterface
 
 class ReceiverActivity : AppCompatActivity(), UIUpdaterInterface {
 
-    val currentTemp = 0
-    val currentLight = 0
+
+    lateinit var tempMin: TextView
+    lateinit var tempMax: TextView
+    lateinit var iluMax: TextView
+    lateinit var iluMin: TextView
+    lateinit var alertText: TextView
+    lateinit var alertTemp: TextView
     var mqttManagerTemp:MQTTmanager? = null
     var mqttManagerLum:MQTTmanager? = null
 
@@ -25,13 +30,15 @@ class ReceiverActivity : AppCompatActivity(), UIUpdaterInterface {
         setContentView(R.layout.activity_receiver)
         resetUIWithConnection(false)
         val temperatureMaxSeekBar: SeekBar = findViewById(R.id.temperatureMaxSeekBar)
-        val tempMax = findViewById<TextView>(R.id.tempMax)
+         tempMax = findViewById<TextView>(R.id.tempMax)
         val temperatureMinSeekBar: SeekBar = findViewById(R.id.temperatureMinSeekBar)
-        val tempMin = findViewById<TextView>(R.id.tempMin)
+         tempMin = findViewById<TextView>(R.id.tempMin)
         val iluMaxSeekBar: SeekBar = findViewById(R.id.iluMaxSeekBar)
-        val iluMax = findViewById<TextView>(R.id.iluMax)
+        iluMax = findViewById<TextView>(R.id.iluMax)
         val iluMinSeekBar: SeekBar = findViewById(R.id.iluMinSeekBar)
-        val iluMin = findViewById<TextView>(R.id.iluMin)
+         iluMin = findViewById<TextView>(R.id.iluMin)
+        alertText = findViewById<TextView>(R.id.alertText)
+        alertTemp = findViewById<TextView>(R.id.alertTemp)
 
         temperatureMaxSeekBar?.setOnSeekBarChangeListener(object :
                 SeekBar.OnSeekBarChangeListener {
@@ -121,23 +128,6 @@ class ReceiverActivity : AppCompatActivity(), UIUpdaterInterface {
                 ).show()
             }
         })
-
-
-
-        if(currentLight>iluMax.text.toString().toInt() &&currentLight<iluMin.text.toString().toInt()){
-            Toast.makeText(
-                    this,
-                    "Luz fuera de los límites",
-                    Toast.LENGTH_LONG
-            )
-        }
-        if(currentTemp>tempMax.text.toString().toInt() &&currentTemp<tempMin.text.toString().toInt()){
-            Toast.makeText(
-                    this,
-                    "Temperatura fuera de los límites",
-                    Toast.LENGTH_LONG
-            )
-        }
     }
 
     override fun resetUIWithConnection(status: Boolean) {
@@ -157,7 +147,23 @@ class ReceiverActivity : AppCompatActivity(), UIUpdaterInterface {
     }
 
     override fun update(message: String, topic: String) {
-        Log.e(topic, message)
+        if (topic == "temperatura"){
+            if(message.toInt()>tempMax.text.toString().toInt() || message.toInt()<tempMin.text.toString().toInt()){
+                alertTemp.text = "Regular temperatura"
+            }else{
+                alertTemp.text = ""
+            }
+        }
+        if(topic == "luminocidad"){
+            if(message.toInt()>iluMax.text.toString().toInt() || message.toInt()<iluMin.text.toString().toInt()){
+                alertText.text = "Regular luminocidad"
+            }else{
+                alertText.text = ""
+            }
+        }
+
+
+
     }
 
     fun connect(view: View){
@@ -167,9 +173,9 @@ class ReceiverActivity : AppCompatActivity(), UIUpdaterInterface {
         mqttManagerTemp = MQTTmanager(connectionParams1,applicationContext,this)
         mqttManagerTemp?.connect()
 
-        var connectionParams2 = MQTTConnectionParams("MQTTSample", host, "luminocidad","stickyraccoon289","q2LUs0YznGESIa7k")
-        mqttManagerTemp = MQTTmanager(connectionParams2,applicationContext,this)
-        mqttManagerTemp?.connect()
+        var connectionParams2 = MQTTConnectionParams("MQTTSample2", host, "luminocidad","stickyraccoon289","q2LUs0YznGESIa7k")
+        mqttManagerLum = MQTTmanager(connectionParams2,applicationContext,this)
+        mqttManagerLum?.connect()
 
     }
 
