@@ -7,6 +7,17 @@
     tools:context=".ReceiverActivity">
 
     <TextView
+        android:background="#e9ab90"
+        android:textColor="@color/black"
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/statusLabl" app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_vertical|center_horizontal"/>
+
+    <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -167,7 +178,7 @@
         app:layout_constraintVertical_bias="0.65" />
 
     <Button
-        android:id="@+id/btnConnect"
+        android:id="@+id/connectBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Establecer"
@@ -175,7 +186,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.758" />
+        app:layout_constraintVertical_bias="0.758" android:onClick="connect"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
