@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, UIUpdaterInterfac
             else -> {
             }
         }
-
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
