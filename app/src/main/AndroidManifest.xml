@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <service android:name="org.eclipse.paho.android.service.MqttService" />
+        <activity android:name=".ReceiverActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
 
     </application>
     <uses-permission android:name="android.permission.INTERNET" />

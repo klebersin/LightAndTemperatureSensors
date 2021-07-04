@@ -1,6 +1,7 @@
 package com.example.lightandtemperature
 
 import android.app.Service
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, UIUpdaterInterfac
     private var temperature: Sensor? = null
     private lateinit var ilu: TextView
     lateinit var temp: TextView
-    lateinit var start: Button
+    lateinit var changeAct: Button
 
     var mqttManagerTemp: MQTTmanager? = null
     var mqttManagerLum:MQTTmanager? = null
@@ -35,7 +36,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, UIUpdaterInterfac
 
         ilu = findViewById<TextView>(R.id.ilu)
         temp = findViewById<TextView>(R.id.temp)
-        start = findViewById<Button>(R.id.connectBtn)
+        changeAct = findViewById<Button>(R.id.buttonPass)
+
+        changeAct.setOnClickListener{val intent = Intent(this,ReceiverActivity::class.java)
+            startActivity(intent)}
+
 
         sm = (applicationContext.getSystemService(Service.SENSOR_SERVICE)) as SensorManager
         light = sm!!.getDefaultSensor(Sensor.TYPE_LIGHT)
